@@ -35,11 +35,11 @@ func main() {
 		println(err.Error())
 	}
 
-	if err := os.WriteFile("/data/meow/woof/moo/typescript.mp3", []byte("Moo Moo"), fs.ModePerm); err != nil {
+	if err := os.WriteFile("/data/meow/woof/moo/music.mp3", []byte("Moo Moo"), fs.ModePerm); err != nil {
 		println(err.Error())
 	}
 
-	if err := os.WriteFile("/data/meow/woof/moo/typescript.mp4", []byte("Moo Moo"), fs.ModePerm); err != nil {
+	if err := os.WriteFile("/data/meow/woof/moo/video.mp4", []byte("Moo Moo"), fs.ModePerm); err != nil {
 		println(err.Error())
 	}
 
