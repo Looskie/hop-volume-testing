@@ -31,6 +31,18 @@ func main() {
 		println(err.Error())
 	}
 
+	if err := os.WriteFile("/data/meow/woof/moo/typescript.ts", []byte("Moo Moo"), fs.ModePerm); err != nil {
+		println(err.Error())
+	}
+
+	if err := os.WriteFile("/data/meow/woof/moo/typescript.mp3", []byte("Moo Moo"), fs.ModePerm); err != nil {
+		println(err.Error())
+	}
+
+	if err := os.WriteFile("/data/meow/woof/moo/typescript.mp4", []byte("Moo Moo"), fs.ModePerm); err != nil {
+		println(err.Error())
+	}
+
 	if err := os.Mkdir("/data/meow/woof/empty", fs.ModePerm); err != nil {
 		println(err.Error())
 	}
