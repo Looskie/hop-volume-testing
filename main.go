@@ -1,51 +1,45 @@
 package main
 
 import (
-	"io/fs"
 	"os"
 )
 
 func main() {
-	if err := os.WriteFile("/data/hello.txt", []byte("Hello World"), fs.ModePerm); err != nil {
+	if err := copy("./mock", "./data"); err != nil {
 		println(err.Error())
 	}
 
-	if err := os.Mkdir("/data/meow", fs.ModePerm); err != nil {
-		println(err.Error())
-	}
-	if err := os.WriteFile("/data/meow/meow.txt", []byte("Meow Meow"), fs.ModePerm); err != nil {
-		println(err.Error())
+	os.Exit(0)
+}
+
+func copy(src string, dest string) error {
+	if err := os.Mkdir(dest, 0755); err != nil {
+		return err
 	}
 
-	if err := os.Mkdir("/data/meow/woof", fs.ModePerm); err != nil {
-		println(err.Error())
-	}
-	if err := os.WriteFile("/data/meow/woof/woof.txt", []byte("Woof Woof"), fs.ModePerm); err != nil {
-		println(err.Error())
+	files, err := os.ReadDir(src)
+	if err != nil {
+		return err
 	}
 
-	if err := os.Mkdir("/data/meow/woof/moo", fs.ModePerm); err != nil {
-		println(err.Error())
-	}
-	if err := os.WriteFile("/data/meow/woof/moo/moo.txt", []byte("Moo Moo"), fs.ModePerm); err != nil {
-		println(err.Error())
+	for _, f := range files {
+		if f.IsDir() {
+			if err := copy(src+"/"+f.Name(), dest+"/"+f.Name()); err != nil {
+				return err
+			}
+		}
+
+		if !f.IsDir() {
+			content, err := os.ReadFile(src + "/" + f.Name())
+			if err != nil {
+				return err
+			}
+
+			if err := os.WriteFile(dest+"/"+f.Name(), content, 0755); err != nil {
+				return err
+			}
+		}
 	}
 
-	if err := os.WriteFile("/data/meow/woof/moo/typescript.ts", []byte("Moo Moo"), fs.ModePerm); err != nil {
-		println(err.Error())
-	}
-
-	if err := os.WriteFile("/data/meow/woof/moo/music.mp3", []byte("Moo Moo"), fs.ModePerm); err != nil {
-		println(err.Error())
-	}
-
-	if err := os.WriteFile("/data/meow/woof/moo/video.mp4", []byte("Moo Moo"), fs.ModePerm); err != nil {
-		println(err.Error())
-	}
-
-	if err := os.Mkdir("/data/meow/woof/empty", fs.ModePerm); err != nil {
-		println(err.Error())
-	}
-
-	os.Exit(1)
+	return nil
 }
