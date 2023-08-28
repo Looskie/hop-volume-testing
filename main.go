@@ -5,6 +5,7 @@ import (
 )
 
 func main() {
+	println("running")
 	if err := copy("./mock", "/data"); err != nil {
 		println(err.Error())
 	}
